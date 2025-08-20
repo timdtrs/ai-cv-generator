@@ -20,7 +20,11 @@ def compile_latex_to_pdf(latex_source: str) -> str:
         # If the source uses fontspec/polyglossia or explicit XeLaTeX-only commands, prefer xelatex.
         lower_src = latex_source.lower()
         needs_xe = bool(
-            re.search(r"\\\s*usepackage\s*\{\s*fontspec\s*\}", lower_src)
+            # fontspec (usepackage or requirepackage)
+            re.search(r"\\\s*(usepackage|requirepackage)\s*\{\s*fontspec\s*\}", lower_src)
+            # unicode-math strongly implies XeLaTeX/LuaLaTeX
+            or re.search(r"\\\s*(usepackage|requirepackage)\s*\{\s*unicode\-math\s*\}", lower_src)
+            # Common XeLaTeX commands
             or "\\setmainfont" in lower_src
             or "\\newfontfamily" in lower_src
             or "polyglossia" in lower_src

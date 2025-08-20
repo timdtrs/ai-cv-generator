@@ -1,5 +1,7 @@
 %-------------------------
-% Resume in Latex - Placeholder Template
+% Lebenslauf Template in LaTeX
+% Basierend auf Jake Gutierrez' Resume-Template
+% License : MIT
 %------------------------
 
 \documentclass[letterpaper,11pt]{article}
@@ -9,11 +11,10 @@
 \usepackage{titlesec}
 \usepackage{marvosym}
 \usepackage[usenames,dvipsnames]{color}
-\usepackage{verbatim}
 \usepackage{enumitem}
 \usepackage[hidelinks]{hyperref}
 \usepackage{fancyhdr}
-\usepackage[english]{babel}
+\usepackage[ngerman]{babel}
 \usepackage{tabularx}
 \input{glyphtounicode}
 
@@ -23,7 +24,7 @@
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0pt}
 
-% Adjust margins
+% Seitenränder anpassen
 \addtolength{\oddsidemargin}{-0.5in}
 \addtolength{\evensidemargin}{-0.5in}
 \addtolength{\textwidth}{1in}
@@ -31,18 +32,19 @@
 \addtolength{\textheight}{1.0in}
 
 \urlstyle{same}
+
 \raggedbottom
 \raggedright
 \setlength{\tabcolsep}{0in}
 
-% Sections formatting
+% Abschnittsformatierung
 \titleformat{\section}{
   \vspace{-4pt}\scshape\raggedright\large
 }{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
 
 \pdfgentounicode=1
 
-% Custom commands
+% Eigene Commands
 \newcommand{\resumeItem}[1]{
   \item\small{
     {#1 \vspace{-2pt}}
@@ -84,67 +86,64 @@
 
 %-----------Header-----------
 \begin{center}
-    \textbf{\Huge \scshape VORNAME NACHNAME}
+    \textbf{\Huge \scshape Vorname Nachname}
 \end{center}
 \begin{center}
 \small +49 000 0000000 $|$
-\href{mailto:EMAIL@BEISPIEL.DE}{\underline{EMAIL@BEISPIEL.DE}} $|$
-\href{https://linkedin.com/in/USERNAME}{\underline{linkedin.com/in/USERNAME}} $|$
-\href{https://github.com/USERNAME}{\underline{github.com/USERNAME}}
+\href{mailto:email@example.com}{\underline{email@example.com}} $|$
+\href{https://linkedin.com/in/username}{\underline{linkedin.com/in/username}} $|$
+\href{https://github.com/username}{\underline{github.com/username}}
 \end{center}
 
-%-----------Education-----------
+%-----------Studium-----------
 \section{Studium}
   \resumeSubHeadingListStart
     \resumeSubheading
-      {ABSCHLUSS (z. B. B.Sc. Fachrichtung)}{STARTDATUM -- ENDDATUM}
-      {UNIVERSITÄT / HOCHSCHULE}{ORT}
+      {Studiengang (z. B. B.Sc. Informatik)}{Monat Jahr -- Monat Jahr}
+      {Universität / Hochschule}{Ort}
       \resumeItemListStart
-        \resumeItem{\textbf{Studienprojekt}: KURZE BESCHREIBUNG DES PROJEKTS}
-        \resumeItem{\textbf{Aktuelle Note}: X,X}
+        \resumeItem{Wichtige Module / Studienschwerpunkte}
+        \resumeItem{Abschlussnote (optional)}
       \resumeItemListEnd
   \resumeSubHeadingListEnd
 
-%-----------Experience-----------
-\section{Erfahrung}
+%-----------Berufserfahrung-----------
+\section{Berufserfahrung}
 \resumeSubHeadingListStart
 
 \resumeSubheading
-  {POSITION / ROLLE}{STARTDATUM -- ENDDATUM}
-  {UNTERNEHMEN}{ORT}
+  {Jobtitel (z. B. Werkstudent Softwareentwicklung)}{Monat Jahr -- Monat Jahr}
+  {Unternehmen}{Ort}
   \resumeItemListStart
-    \resumeItem{AUFGABE oder PROJEKT 1 (inkl. Technologien falls gewünscht).}
-    \resumeItem{AUFGABE oder PROJEKT 2.}
-    \resumeItem{AUFGABE oder PROJEKT 3.}
+    \resumeItem{Aufgabe oder Projekt 1 (mit Technologien in \textbf{Klammern}).}
+    \resumeItem{Aufgabe oder Projekt 2.}
   \resumeItemListEnd
 
 \resumeSubheading
-  {POSITION / ROLLE}{STARTDATUM -- ENDDATUM}
-  {UNTERNEHMEN}{ORT}
+  {Jobtitel}{Monat Jahr -- Monat Jahr}
+  {Unternehmen}{Ort}
   \resumeItemListStart
-    \resumeItem{AUFGABE oder PROJEKT 1.}
-    \resumeItem{AUFGABE oder PROJEKT 2.}
+    \resumeItem{Aufgabe oder Projekt 1.}
+    \resumeItem{Aufgabe oder Projekt 2.}
   \resumeItemListEnd
 
 \resumeSubHeadingListEnd
 
-%-----------Projects-----------
-\section{Eigene Projekte}
+%-----------Projekte-----------
+\section{Projekte}
 \resumeSubHeadingListStart
 
   \resumeSubheading
-    {PROJEKTTITEL}{}{TECHNOLOGIEN}{}
+    {Projektname}{}{Technologien}{}
     \resumeItemListStart
-      \resumeItem{KURZE BESCHREIBUNG DER PROJEKTZIELE.}
-      \resumeItem{WICHTIGSTE FUNKTION oder ERGEBNIS.}
-      \resumeItem{EINGESETZTE TOOLS / FRAMEWORKS.}
+      \resumeItem{Kurze Beschreibung des Projekts.}
+      \resumeItem{Besondere Funktionalitäten oder Ergebnisse.}
     \resumeItemListEnd
 
   \resumeSubheading
-    {PROJEKTTITEL}{}{TECHNOLOGIEN}{}
+    {Projektname}{}{Technologien}{}
     \resumeItemListStart
-      \resumeItem{KURZE BESCHREIBUNG DER PROJEKTZIELE.}
-      \resumeItem{BESONDERHEIT oder HERAUSFORDERUNG.}
+      \resumeItem{Kurze Beschreibung des Projekts.}
     \resumeItemListEnd
 
 \resumeSubHeadingListEnd
@@ -153,8 +152,8 @@
 \section{Skills}
 \begin{itemize}[leftmargin=0.15in, label={}]
   \small{\item{
-    \textbf{Technische Skills:} TECHNOLOGIE 1, TECHNOLOGIE 2, TECHNOLOGIE 3, ...\\
-    \textbf{Sprachen:} SPRACHE 1 (Level), SPRACHE 2 (Level)
+    \textbf{Technische Skills:} Python, JavaScript, Docker, Azure, \ldots \\
+    \textbf{Sprachen:} Deutsch (Muttersprache), Englisch (fließend)
   }}
 \end{itemize}
 

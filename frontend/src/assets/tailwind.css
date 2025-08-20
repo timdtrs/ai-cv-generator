@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+/* App theme tokens (optional overrides) */
+:root {
+  --background: 11 16% 12%;
+  --foreground: 220 40% 96%;
+  --muted: 225 30% 70%;
+  --primary: 222 90% 56%;
+  --primary-foreground: 0 0% 100%;
+}
+
+html, body, #app {
+  height: 100%;
+}
+
+@layer utilities {
+  /* Fixed 3-column grid utility to avoid arbitrary CSS */
+  .cols-3-fixed { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
