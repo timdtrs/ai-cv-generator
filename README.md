@@ -24,22 +24,9 @@ Ein kleines Fullstack-Projekt, das aus frei eingegebenem Text per OpenAI/ChatGPT
 3. Frontend öffnen: `http://localhost:8080`
 
 ## Screenshots
-- Ablageort: Lege Screenshots im Repo unter `docs/screenshots/` ab (PNG/JPG/SVG). Der Ordner ist versioniert, damit Bilder in der README angezeigt werden können.
-- Einbindung in Markdown (relative Pfade, funktionieren auf GitHub/GitLab):
-
-  ```markdown
   ![Landing Page](docs/screenshots/landing-page.png)
   ![Nutzereingabe](docs/screenshots/form.png)
   ![PDF-Vorschau](docs/screenshots/pdf-vorschau.png)
-  ```
-
-- Optionale Größenangabe mit HTML, wenn notwendig:
-
-  ```html
-  <img src="docs/screenshots/editor.png" alt="Editor" width="700">
-  ```
-
-- Tipps: Aussagekräftige Dateinamen (`startseite.png`, `login.png`), konsistente Benennung für helle/dunkle Themes (`editor-dark.png`, `editor-light.png`).
 
 ## Authentifizierung (Auth0)
 - Landing Page (`/`) ist öffentlich, das Tool (`/tool`) ist per Auth0 geschützt.
