@@ -2,6 +2,9 @@
 
 Ein kleines Fullstack-Projekt, das aus frei eingegebenem Text per OpenAI/ChatGPT kompilierbaren LaTeX-Code für einen Lebenslauf erzeugt und daraus ein PDF baut. Das LaTeX-Template ist konfigurierbar und wird serverseitig gespeichert.
 
+![Landing Page](docs/screenshots/landing-page.png)
+
+
 ## Architektur
 - Frontend: Vue 3 (Vite) + Nginx (serviert Build und proxyt `/api` zum Backend)
 - Backend: FastAPI (Python) mit Endpunkten zum Generieren (OpenAI) und Rendern (Tectonic)
@@ -23,9 +26,13 @@ Ein kleines Fullstack-Projekt, das aus frei eingegebenem Text per OpenAI/ChatGPT
    - `docker compose up --build`
 3. Frontend öffnen: `http://localhost:8080`
 
-## Screenshots
-  ![Landing Page](docs/screenshots/landing-page.png)
+## Screenshots aus dem System
+  
+
   ![Nutzereingabe](docs/screenshots/form.png)
+
+  <br>
+
   ![PDF-Vorschau](docs/screenshots/pdf-vorschau.png)
 
 ## Authentifizierung (Auth0)
