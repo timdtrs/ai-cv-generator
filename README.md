@@ -1,66 +1,65 @@
 # CV Generator (Vue.js + FastAPI + Docker)
 
-Ein kleines Fullstack-Projekt, das aus frei eingegebenem Text per OpenAI/ChatGPT kompilierbaren LaTeX-Code für einen Lebenslauf erzeugt und daraus ein PDF baut. Das LaTeX-Template ist konfigurierbar und wird serverseitig gespeichert.
+A small full‑stack project that turns free‑form text into compilable LaTeX for a résumé/CV using OpenAI/ChatGPT, then renders a PDF from it. The LaTeX template is configurable and stored server‑side.
 
 ![Landing Page](docs/screenshots/landing-page.png)
 
 
-## Architektur
-- Frontend: Vue 3 (Vite) + Nginx (serviert Build und proxyt `/api` zum Backend)
-- Backend: FastAPI (Python) mit Endpunkten zum Generieren (OpenAI) und Rendern (Tectonic)
-- PDF-Build: [Tectonic](https://tectonic-typesetting.github.io/) LaTeX-Engine im Backend-Container
-- Orchestrierung: Docker Compose
+## Architecture
+- Frontend: Vue 3 (Vite) + Nginx (serves the build and proxies `/api` to the backend)
+- Backend: FastAPI (Python) with endpoints for generation (OpenAI) and rendering (Tectonic)
+- PDF build: [Tectonic](https://tectonic-typesetting.github.io/) LaTeX engine in the backend container
+- Orchestration: Docker Compose
 
-## Voraussetzungen
-- Docker und Docker Compose
-- OpenAI API Key
-- Wenn du das Backend lokal ohne Docker startest: Installiere eine LaTeX-Engine
-  (empfohlen: Tectonic). Beispiele:
+## Prerequisites
+- Docker and Docker Compose
+- OpenAI API key
+- If you run the backend locally without Docker: install a LaTeX engine
+  (recommended: Tectonic). Examples:
   - macOS: `brew install tectonic`
   - Debian/Ubuntu: `sudo apt-get update && sudo apt-get install tectonic`
-  - Alternativ (Fallback): `pdflatex`/`xelatex` aus einer TeX-Distribution
+  - Alternative (fallback): `pdflatex`/`xelatex` from a TeX distribution
 
-## Start
-1. `.env` im Projektverzeichnis anlegen (siehe `.env.example` unten) oder Umgebungsvariablen setzen.
-2. Build & Start:
+## Getting Started
+1. Create a `.env` in the project root (see `.env.example` below) or set environment variables.
+2. Build & start:
    - `docker compose up --build`
-3. Frontend öffnen: `http://localhost:8080`
+3. Open the frontend: `http://localhost:8080`
 
-## Screenshots aus dem System
-  
+## Screenshots
 
-  ![Nutzereingabe](docs/screenshots/form.png)
+  ![User Input](docs/screenshots/form.png)
 
   <br>
 
-  ![PDF-Vorschau](docs/screenshots/pdf-vorschau.png)
+  ![PDF Preview](docs/screenshots/pdf-vorschau.png)
 
-## Authentifizierung (Auth0)
-- Landing Page (`/`) ist öffentlich, das Tool (`/tool`) ist per Auth0 geschützt.
-- Alle Backend-API-Routen unter `/api/*` sind zusätzlich per JWT (Auth0 Access Token) geschützt; `GET /api/health` bleibt öffentlich.
-- Erstelle eine SPA-App in Auth0 und trage Folgendes ein:
+## Authentication (Auth0)
+- Landing page (`/`) is public, the tool (`/tool`) is protected via Auth0.
+- All backend API routes under `/api/*` additionally require JWT (Auth0 access token); `GET /api/health` remains public.
+- Create an SPA app in Auth0 and configure:
   - Allowed Callback URLs: `http://localhost:8080/callback`
   - Allowed Logout URLs: `http://localhost:8080`
   - Allowed Web Origins: `http://localhost:8080`
-- Setze die folgenden Variablen in `.env` (werden beim Frontend-Build injiziert):
-  - `VITE_AUTH0_DOMAIN` – z. B. `your-tenant.eu.auth0.com`
-  - `VITE_AUTH0_CLIENT_ID` – Client ID der SPA-App
-  - Optional: `VITE_AUTH0_AUDIENCE` – falls ein API-Audience genutzt wird
+- Set the following variables in `.env` (injected at frontend build time):
+  - `VITE_AUTH0_DOMAIN` – e.g. `your-tenant.eu.auth0.com`
+  - `VITE_AUTH0_CLIENT_ID` – SPA app client ID
+  - Optional: `VITE_AUTH0_AUDIENCE` – if you use an API audience
 
-Backend erwartet zusätzlich (über Compose bereits verdrahtet):
-- `AUTH0_DOMAIN` und `AUTH0_AUDIENCE` (werden aus den VITE-Variablen gespeist)
+Backend additionally expects (already wired via Compose):
+- `AUTH0_DOMAIN` and `AUTH0_AUDIENCE` (derived from the VITE variables)
 
-Das Frontend sendet das Access Token automatisch als `Authorization: Bearer ...` Header.
+The frontend automatically sends the access token as `Authorization: Bearer ...` header.
 
-Hinweis: Die Werte werden zur Build-Zeit in das Frontend injiziert (Vite). Docker Compose übergibt sie als Build-Args an das Frontend.
+Note: Values are injected into the frontend at build time (Vite). Docker Compose passes them as build args to the frontend.
 
-## Umgebungsvariablen
-- `OPENAI_API_KEY` (Pflicht): Dein OpenAI API Key
-- `OPENAI_MODEL` (optional): z. B. `gpt-4o-mini` (Default), `gpt-4o`, `gpt-3.5-turbo`
+## Environment Variables
+- `OPENAI_API_KEY` (required): Your OpenAI API key
+- `OPENAI_MODEL` (optional): e.g. `gpt-4o-mini` (default), `gpt-4o`, `gpt-3.5-turbo`
 
-Beispiel `.env`:
+Example `.env`:
 ```
-OPENAI_API_KEY=sk-...dein-key...
+OPENAI_API_KEY=sk-...your-key...
 OPENAI_MODEL=gpt-4o-mini
 
 # Auth0
@@ -69,36 +68,36 @@ VITE_AUTH0_CLIENT_ID=yourClientId
 VITE_AUTH0_AUDIENCE=
 ```
 
-## API Endpunkte (Backend)
-- `GET /api/health` – Healthcheck
-- `GET /api/template` – aktuelles LaTeX-Template lesen
-- `PUT /api/template` – Template speichern; Body: `{ "template": "..." }`
-- `POST /api/generate` – LaTeX generieren; Body: `{ "input_text": "...", "template_override"?: "..." }`; Antwort: `{ latex: "..." }`
-- `POST /api/render` – PDF aus LaTeX erzeugen; Body: `{ "latex": "..." }`; Antwort: `application/pdf`
-- `POST /api/generate-pdf` – Generieren und Rendern in einem Schritt; Body: `{ "input_text": "..." }`; Antwort: `application/pdf`
+## API Endpoints (Backend)
+- `GET /api/health` – health check
+- `GET /api/template` – read current LaTeX template
+- `PUT /api/template` – save template; body: `{ "template": "..." }`
+- `POST /api/generate` – generate LaTeX; body: `{ "input_text": "...", "template_override"?: "..." }`; response: `{ latex: "..." }`
+- `POST /api/render` – render PDF from LaTeX; body: `{ "latex": "..." }`; response: `application/pdf`
+- `POST /api/generate-pdf` – generate and render in one step; body: `{ "input_text": "..." }`; response: `application/pdf`
 
-## Hinweise zur LaTeX-Kompilierung
-- Der Backend-Container installiert Tectonic automatisch. Läuft das Backend lokal, nutzt der Code zuerst `tectonic`, fällt bei Nichtverfügbarkeit auf `pdflatex` bzw. `xelatex` zurück.
-- Bei Nutzung externer LaTeX-Pakete lädt Tectonic diese ggf. zur Laufzeit nach (Internetverbindung erforderlich). Für reproduzierbare Builds empfiehlt sich ein Template, das mit dem Tectonic-Standard gut funktioniert.
-- Templates werden im Volume `cv_templates` unter `/app/templates/cv_template.tex` persistiert.
+## LaTeX Compilation Notes
+- The backend container installs Tectonic automatically. When running the backend locally, the code tries `tectonic` first and falls back to `pdflatex` or `xelatex` if unavailable.
+- When using external LaTeX packages, Tectonic may fetch them at runtime (requires internet access). For reproducible builds, prefer templates that work well with Tectonic’s defaults.
+- Templates persist in the `cv_templates` volume under `/app/templates/cv_template.tex`.
 
-## Entwicklung
-- Frontend-Code liegt in `frontend/`, Backend in `backend/`.
-- Lokaler Test ohne Docker ist möglich (uvicorn, vite), standardmäßig ist jedoch alles über Compose verdrahtet.
+## Development
+- Frontend code lives in `frontend/`, backend in `backend/`.
+- Local testing without Docker is possible (uvicorn, Vite), but Compose wiring is the default.
 
 ## Templates
-- Auswahl im Tool unter Schritt 1. Die Vorschau-Bilder liegen im Frontend unter `frontend/src/assets/templates/`.
-- Konfiguration der verfügbaren Templates im Frontend in `frontend/src/templates.js` (id, Name, Preview-Bild).
-- Das Backend lädt Templates anhand der `id` aus dem Verzeichnis `TEMPLATE_DIR` (Standard: `/app/templates`).
-  - Dateinamensschema: `<id>.tex` (z. B. `cv_template.tex`, `modern.tex`, `minimal.tex`).
-  - Packaged Defaults: Falls vorhanden, werden auch Dateien unter `backend/app/templates/` berücksichtigt.
-- Wenn ein ausgewähltes Template im Backend nicht existiert, wird ein 404 zurückgegeben.
+- Select templates in the tool under step 1. Preview images live in `frontend/src/assets/templates/`.
+- Configure available templates in the frontend at `frontend/src/templates.js` (id, name, preview image).
+- The backend loads templates by `id` from `TEMPLATE_DIR` (default: `/app/templates`).
+  - Filename pattern: `<id>.tex` (e.g. `cv_template.tex`, `modern.tex`, `minimal.tex`).
+  - Packaged defaults: If present, files under `backend/app/templates/` are also considered.
+- If a selected template does not exist in the backend, a 404 is returned.
 
-## Sicherheit
-- Setze den API-Key ausschließlich als Umgebungsvariable. Er wird nicht ins Frontend geleakt. Die Generierung erfolgt serverseitig.
+## Security
+- Provide the API key only via environment variable. It is not leaked to the frontend. Generation happens server‑side.
 
 ## Troubleshooting
-- Generierung schlägt fehl: Prüfe `OPENAI_API_KEY` und `OPENAI_MODEL` in der `.env`.
-- LaTeX-Kompilierung schlägt mit "No such file or directory: 'tectonic'" fehl: Installiere Tectonic (s. Voraussetzungen) oder stelle sicher, dass eine LaTeX-Engine (`pdflatex`/`xelatex`) im `PATH` ist.
-- LaTeX-Fehler: Prüfe die generierte LaTeX-Ausgabe in der UI und ggf. passe das Template an.
-- Paket-Downloads blockiert: Tectonic benötigt Internetzugriff im Container, um fehlende Pakete nachzuladen.
+- Generation fails: Check `OPENAI_API_KEY` and `OPENAI_MODEL` in `.env`.
+- LaTeX compilation error "No such file or directory: 'tectonic'": Install Tectonic (see prerequisites) or ensure a LaTeX engine (`pdflatex`/`xelatex`) is on `PATH`.
+- LaTeX errors: Inspect the generated LaTeX in the UI and adjust the template if needed.
+- Package downloads blocked: Tectonic requires internet access in the container to fetch missing packages.
